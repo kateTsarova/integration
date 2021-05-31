@@ -4,8 +4,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -34,6 +36,7 @@ class UserRepositoryTest {
         repository.flush();
         user = new User();
         user.setFirstName("Jan");
+        user.setLastName("Nowak");
         user.setEmail("john@domain.com");
         user.setAccountStatus(AccountStatus.NEW);
     }
@@ -62,6 +65,65 @@ class UserRepositoryTest {
         User persistedUser = repository.save(user);
 
         assertThat(persistedUser.getId(), notNullValue());
+    }
+
+    @Test
+    void shouldFindUserByName() {
+        User persistedUser = entityManager.persist(user);
+        List<User> users = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(persistedUser.getFirstName(), " ", " ");
+
+        int expected = 1;
+        assertEquals(expected, users.size());
+        assertEquals(persistedUser.getId(), users.get(0).getId());
+    }
+
+    @Test
+    void shouldFindUserBySurname() {
+        User persistedUser = entityManager.persist(user);
+        List<User> users = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(" ", persistedUser.getLastName(), " ");
+
+        int expected = 1;
+        assertEquals(expected, users.size());
+        assertEquals(persistedUser.getId(), users.get(0).getId());
+    }
+
+    @Test
+    void shouldFindUserByEmail() {
+        User persistedUser = entityManager.persist(user);
+        List<User> users = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(" ", " ", persistedUser.getEmail());
+
+        int expected = 1;
+        assertEquals(expected, users.size());
+        assertEquals(persistedUser.getId(), users.get(0).getId());
+    }
+
+    @Test
+    void shouldNotFindUser() {
+        entityManager.persist(user);
+        List<User> users = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(" ", " ", " ");
+
+        int expected = 0;
+        assertEquals(expected, users.size());
+    }
+
+    @Test
+    void shouldFindUserIgnoringUpperCase() {
+        User persistedUser = entityManager.persist(user);
+        List<User> users = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(persistedUser.getFirstName().toUpperCase(Locale.ROOT), " ", " ");
+
+        int expected = 1;
+        assertEquals(expected, users.size());
+        assertEquals(persistedUser.getId(), users.get(0).getId());
+    }
+
+    @Test
+    void shouldFindUserIgnoringLowerCase() {
+        User persistedUser = entityManager.persist(user);
+        List<User> users = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(persistedUser.getFirstName().toUpperCase(Locale.ROOT), " ", " ");
+
+        int expected = 1;
+        assertEquals(expected, users.size());
+        assertEquals(persistedUser.getId(), users.get(0).getId());
     }
 
 }
