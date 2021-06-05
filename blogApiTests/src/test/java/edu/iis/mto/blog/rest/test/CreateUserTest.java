@@ -13,7 +13,7 @@ class CreateUserTest extends FunctionalTests {
     private static final String USER_API = "/blog/user";
 
     @Test
-    void createUserWithProperDataReturnsCreatedStatus() {
+    void createUserWithCorrectDataReturnsCreatedStatus() {
         JSONObject jsonObj = new JSONObject().put("email", "tracy1@domain.com");
         given().accept(ContentType.JSON)
                 .header("Content-Type", "application/json;charset=UTF-8")
