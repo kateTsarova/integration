@@ -17,22 +17,7 @@ public class GetPostTest extends FunctionalTests {
     private static final String GET_POST_API = "/blog/post/{id}";
 
     @Test
-    void shouldReturnTwoPostsWhenUserAddedTwoPosts() {
-        Response response = given().accept(ContentType.JSON)
-                .pathParams("id", 3)
-                .expect()
-                .log()
-                .all()
-                .statusCode(HttpStatus.SC_OK)
-                .when()
-                .get(GET_USER_POST_API);
-
-        JSONArray responseBody = new JSONArray(response.getBody().asString());
-        assertThat(responseBody.length(), equalTo(2));
-    }
-
-    @Test
-    void shouldNotReturnPostsWhenUserHasStatusRemoved() {
+    void shouldNotReturnPostsWhenUserIsRemoved() {
         given().accept(ContentType.JSON)
                 .pathParams("id", 5)
                 .expect()
@@ -44,7 +29,21 @@ public class GetPostTest extends FunctionalTests {
     }
 
     @Test
-    void shouldReturnLikeCountEqualsOneWhenOneUserLikedPost() {
+    void shouldReturnTwoPostsWhenUserAddedTwoPosts() {
+        Response response = given().accept(ContentType.JSON)
+                .pathParams("id", 3)
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_OK)
+                .when()
+                .get(GET_USER_POST_API);
+        JSONArray responseBody = new JSONArray(response.getBody().asString());
+        assertThat(responseBody.length(), equalTo(2));
+    }
+
+    @Test
+    void likeCountShouldEqualOneWhenOneUserLikedPost() {
         Response response = given().accept(ContentType.JSON)
                 .pathParams("id", 1)
                 .expect()
@@ -53,7 +52,6 @@ public class GetPostTest extends FunctionalTests {
                 .statusCode(HttpStatus.SC_OK)
                 .when()
                 .get(GET_POST_API);
-
         JSONObject responseBody = new JSONObject(response.getBody().asString());
         assertThat(responseBody.getInt("likesCount"), equalTo(1));
     }

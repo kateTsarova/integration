@@ -15,7 +15,7 @@ public class GetUserTest extends FunctionalTests {
     private static final String GET_USER_API = "/blog/user/find";
 
     @Test
-    void shouldReturnUserByEmailWhenPassedEmail() {
+    void shouldReturnUserByEmail() {
         Response response = given().accept(ContentType.JSON)
                 .queryParam("searchString", "john@domain.com")
                 .expect()
@@ -30,7 +30,7 @@ public class GetUserTest extends FunctionalTests {
     }
 
     @Test
-    void shouldReturnUserByNameWhenPassedName() {
+    void shouldReturnUserByName() {
         Response response = given().accept(ContentType.JSON)
                 .queryParam("searchString", "John")
                 .expect()
@@ -45,7 +45,7 @@ public class GetUserTest extends FunctionalTests {
     }
 
     @Test
-    void shouldReturnUserBySurnameWhenPassedSurname() {
+    void shouldReturnUserBySurname() {
         Response response = given().accept(ContentType.JSON)
                 .queryParam("searchString", "Steward")
                 .expect()
@@ -60,7 +60,7 @@ public class GetUserTest extends FunctionalTests {
     }
 
     @Test
-    void shouldNotReturnUserWhenUserWasRemoved() {
+    void shouldNotReturnUserWhenUserIsRemoved() {
         Response response = given().accept(ContentType.JSON)
                 .queryParam("searchString", "test3@domain.com")
                 .expect()

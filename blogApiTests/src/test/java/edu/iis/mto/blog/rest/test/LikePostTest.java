@@ -11,7 +11,7 @@ public class LikePostTest extends FunctionalTests {
 
     private static final String CREATE_LIKE_POST_API = "/blog/user/{userId}/like/{postId}";
     @Test
-    void shouldLikePostWhenUserIsConfirmed() {
+    void shouldLikePostWhenConfirmedUser() {
         given().accept(ContentType.JSON)
                 .header("Content-Type", "application/json;charset=UTF-8")
                 .pathParams("userId", 1, "postId", 1)
@@ -23,7 +23,7 @@ public class LikePostTest extends FunctionalTests {
                 .post(CREATE_LIKE_POST_API);
     }
     @Test
-    void shouldNotLikePostWhenUserIsItsAuthor() {
+    void shouldNotLikePostWhenUserCreatedPost() {
         given().accept(ContentType.JSON)
                 .header("Content-Type", "application/json;charset=UTF-8")
                 .pathParams("userId", 3, "postId", 1)
@@ -35,7 +35,7 @@ public class LikePostTest extends FunctionalTests {
                 .post(CREATE_LIKE_POST_API);
     }
     @Test
-    void shouldNotLikePostWhenUserIsNotConfirmed() {
+    void shouldNotLikePostWhenNotConfirmedUser() {
         given().accept(ContentType.JSON)
                 .header("Content-Type", "application/json;charset=UTF-8")
                 .pathParams("userId", 2, "postId", 1)
@@ -48,7 +48,7 @@ public class LikePostTest extends FunctionalTests {
     }
 
     @Test
-    void createLikePostByUserWhoAlreadyLikedPostReturnsFalse() {
+    void shouldNotLikePostTwice() {
         given().accept(ContentType.JSON)
                 .header("Content-Type", "application/json;charset=UTF-8")
                 .pathParams("userId", 4, "postId", 1)

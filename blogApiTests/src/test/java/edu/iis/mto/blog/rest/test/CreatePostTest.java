@@ -12,7 +12,7 @@ public class CreatePostTest extends FunctionalTests {
     private static final String CREATE_POST_API = "/blog/user/{userid}/post";
 
     @Test
-    void shouldCreatePostWhenUserConfirmed() {
+    void shouldCreatePostWhenConfirmedUser() {
         JSONObject jsonObj = new JSONObject().put("entry", "test entry");
         given().accept(ContentType.JSON)
                 .header("Content-Type", "application/json;charset=UTF-8")
@@ -27,7 +27,7 @@ public class CreatePostTest extends FunctionalTests {
     }
 
     @Test
-    void shouldNotCreatePostWhenUserNotConfirmed() {
+    void shouldNotCreatePostWhenNotConfirmedUser() {
         JSONObject jsonObj = new JSONObject().put("entry", "test entry");
         given().accept(ContentType.JSON)
                 .header("Content-Type", "application/json;charset=UTF-8")
