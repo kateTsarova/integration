@@ -62,7 +62,7 @@ public class GetUserTest extends FunctionalTests {
     @Test
     void shouldNotReturnUserWhenUserWasRemoved() {
         Response response = given().accept(ContentType.JSON)
-                .queryParam("searchString", "dummyEmail3@domain.com")
+                .queryParam("searchString", "test3@domain.com")
                 .expect()
                 .log()
                 .all()
@@ -73,4 +73,5 @@ public class GetUserTest extends FunctionalTests {
         JSONArray responseBody = new JSONArray(response.getBody().asString());
         assertThat(responseBody.length(), equalTo(0));
     }
+
 }

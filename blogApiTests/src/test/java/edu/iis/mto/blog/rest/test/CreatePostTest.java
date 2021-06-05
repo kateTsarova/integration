@@ -13,7 +13,7 @@ public class CreatePostTest extends FunctionalTests {
 
     @Test
     void shouldCreatePostWhenUserConfirmed() {
-        JSONObject jsonObj = new JSONObject().put("entry", "dummy entry");
+        JSONObject jsonObj = new JSONObject().put("entry", "test entry");
         given().accept(ContentType.JSON)
                 .header("Content-Type", "application/json;charset=UTF-8")
                 .pathParam("userid", 1)
